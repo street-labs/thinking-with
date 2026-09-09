@@ -24,6 +24,8 @@ npm run preview  # serve the built site locally
   so **nothing about your podcast hosting or subscribers changes.**
 - `src/content/writing/*.md` — articles. Add a Markdown file with the frontmatter shown in the
   existing posts to publish an essay. Set `draft: true` to keep it unpublished.
+- `PUBLISHING.md` — **the writing workflow for authors and maintainers:** how a piece goes
+  from a shared doc to staging to the live site, and the go-live steps.
 - `src/pages/` — the routes (home, podcasts, seasons, series, writing, about, contact).
 - `src/components/`, `src/layouts/`, `src/styles/global.css` — UI and the design system
   (palette, type) — edit `global.css` `:root` tokens to retune colors/fonts globally.

@@ -14,8 +14,11 @@ Read the README above first: it explains what this site is, how to run it
 
 - Scope: work only on this website (Astro static site). Decline unrelated tasks.
 - Branch discipline (per Luke, 2026-09): commit directly to `main` and push.
-  No PRs, no review gates. `main` auto-deploys to staging
-  (https://street-labs.github.io/thinking-with/).
+  No PRs, no review gates. Pull frequently so rebases stay trivial, and keep
+  commits small and focused so changes are easy for everyone to verify, revert,
+  or amend. `main` auto-deploys to staging
+  (https://street-labs.github.io/thinking-with/) - reviewers verify changes
+  there; if something is wrong, revert or modify the commit.
 - No destructive commands (no `sudo`, no installs outside the project, no `rm`
   outside the worktree).
 - Keep changes minimal and focused; one concern per PR.

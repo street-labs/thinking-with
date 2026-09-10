@@ -1,0 +1,96 @@
+<!doctype html>
+<!-- Static signing page for Thinking With… authors.
+     The unsigned event rides in the URL fragment (#), which browsers never
+     send to the server. Signing happens locally in this page: either via a
+     NIP-07 browser extension (window.nostr) or by pasting an nsec, which is
+     used in-memory only and never transmitted anywhere. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign your essay</title>
+<style>
+  body { font-family: Georgia, serif; max-width: 40rem; margin: 3rem auto; padding: 0 1rem; line-height: 1.6; }
+  pre { background: #f4f1ec; padding: 1rem; overflow-x: auto; font-size: .85rem; white-space: pre-wrap; word-break: break-all; }
+  button { font-size: 1rem; padding: .6rem 1.4rem; cursor: pointer; }
+  input { width: 100%; padding: .5rem; box-sizing: border-box; font-family: monospace; }
+  .hide { display: none; }
+  small { color: #666; }
+</style>
+<script type="module">
+import { finalizeEvent, nip19 } from '/vendor/nostr-tools.js'
+
+const $ = (id) => document.getElementById(id)
+let unsigned = null
+
+function short(s, n = 400) { return s.length > n ? s.slice(0, n) + '…' : s }
+
+async function load() {
+  if (!location.hash) { $('nolink').classList.remove('hide'); return }
+  try {
+    unsigned = JSON.parse(decodeURIComponent(location.hash.slice(1)))
+  } catch { $('badlink').classList.remove('hide'); return }
+  $('preview').textContent =
+    `Title: ${unsigned.tags.find(([k]) => k === 'title')?.[1] ?? '(untitled)'}\n\n` +
+    short(unsigned.content)
+}
+
+async function signWithExtension() {
+  const { id, sig, pubkey } = await window.nostr.signEvent(unsigned)
+  return { ...unsigned, id, sig, pubkey }
+}
+
+async function signWithNsec() {
+  const sk = nip19.decode($('nsec').value.trim()).data
+  const signed = finalizeEvent(unsigned, sk)
+  $('nsec').value = '' // wipe from the DOM immediately
+  return signed
+}
+
+async function sign(ev) {
+  $('result').textContent = JSON.stringify(ev, null, 2)
+  $('done').classList.remove('hide')
+  $('copy').classList.remove('hide')
+  history.replaceState(null, '', location.pathname) // drop the fragment
+}
+
+$('extBtn').onclick = async () => {
+  if (!window.nostr) { $('noext').classList.remove('hide'); $('fallback').classList.remove('hide'); return }
+  try { await sign(await signWithExtension()) } catch (e) { $('err').textContent = String(e) }
+}
+$('nsecBtn').onclick = async () => {
+  try { await sign(await signWithNsec()) } catch (e) { $('err').textContent = 'Could not read that key: ' + e }
+}
+$('copy').onclick = () => navigator.clipboard.writeText($('result').textContent)
+
+load()
+</script>
+</head>
+<body>
+<h1>Sign your essay</h1>
+<p id="nolink" class="hide">No essay loaded. Use the link your editor sent you.</p>
+<p id="badlink" class="hide">The link looks broken. Ask your editor for a fresh one.</p>
+
+<div id="main">
+  <h2>You are signing:</h2>
+  <pre id="preview"></pre>
+  <p><small>Signing is free and proves the essay is yours. Your key never leaves this page.</small></p>
+
+  <button id="extBtn">Sign</button>
+  <p><small>Nostr browser extension (Alby, nos2x, or the Buzz portal) will ask you to confirm.</small></p>
+
+  <div id="fallback" class="hide">
+    <p><strong>Or paste your key</strong> (starts with <code>nsec1</code>). It is used only in this tab, never sent anywhere, and cleared after signing.</p>
+    <input id="nsec" type="password" placeholder="nsec1…">
+    <button id="nsecBtn">Sign with pasted key</button>
+  </div>
+
+  <p id="noext" class="hide"><small>No nostr extension found — use the key option below.</small></p>
+  <p id="err" style="color:#a00"></p>
+
+  <h2 id="done" class="hide">Signed! Copy this and send it back:</h2>
+  <pre id="result"></pre>
+  <button id="copy" class="hide">Copy signed event</button>
+</div>
+</body>
+</html>

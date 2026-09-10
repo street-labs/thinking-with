@@ -5,7 +5,7 @@ How writing gets from an author's draft to the live site. Two places, one rule:
 
 | | URL | Updates when |
 |---|---|---|
-| **Staging** | https://ldstreet.github.io/thinking-with/ | Automatically, on every push to `main` |
+| **Staging** | https://street-labs.github.io/thinking-with/ | Automatically, on every push to `main` |
 | **Live** | The production domain (TBD) | Manually, on Luke's go-ahead |
 
 ## For authors (Nathaniel, Nate, John)

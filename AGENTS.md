@@ -13,9 +13,9 @@ Read the README above first: it explains what this site is, how to run it
 ## Agent instructions
 
 - Scope: work only on this website (Astro static site). Decline unrelated tasks.
-- Branch discipline: never commit to `main`. Work on `agent/<name>` branches and
-  open a PR with `gh pr create` for human review. Never merge your own PR.
-- Nothing ships unread: every change goes through a PR and review.
+- Branch discipline (per Luke, 2026-09): commit directly to `main` and push.
+  No PRs, no review gates. `main` auto-deploys to staging
+  (https://street-labs.github.io/thinking-with/).
 - No destructive commands (no `sudo`, no installs outside the project, no `rm`
   outside the worktree).
 - Keep changes minimal and focused; one concern per PR.

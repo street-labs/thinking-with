@@ -12,17 +12,24 @@ const inProduction = s.status === 'in-production';
       <img src={u(s.cover)} alt={`${s.alias} — season ${s.number} cover art`} loading="lazy" width="600" height="600" />
     ) : (
       <div class="scard-placeholder">
-        <span class="ph-thinker">{s.thinker}</span>
+        <span class="ph-kicker">Thinking With…</span>
         <span class="ph-alias">{s.alias}</span>
       </div>
     )}
     {inProduction && <span class="scard-flag">{s.statusNote ?? 'In production'}</span>}
   </div>
   <div class="scard-body">
-    <span class="scard-no">Season {s.number}{count ? ` · ${count} episodes` : ''}</span>
-    <h3 class="scard-title">{s.alias}</h3>
-    <p class="scard-work">Thinking With… <em>{s.work}</em></p>
-    {s.theme && <span class="scard-theme">Theme · {s.theme}</span>}
+    {inProduction ? (
+      <span class="scard-no">Season {s.number} coming soon</span>
+    ) : (
+      <>
+        <span class="scard-no">Season {s.number}{count ? ` · ${count} episodes` : ''}</span>
+        <h3 class="scard-title">{s.alias}</h3>
+        <p class="scard-work">Thinking With… <em>{s.work}</em></p>
+        {s.theme && <span class="scard-theme">Theme · {s.theme}</span>}
+      </>
+    )}
+  </div>
   </div>
 </a>
 
@@ -51,7 +58,7 @@ const inProduction = s.status === 'in-production';
       radial-gradient(120% 80% at 50% 0%, color-mix(in srgb, var(--accent) 70%, #000 8%), var(--accent));
     color: var(--accent-ink);
   }
-  .ph-thinker { font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; opacity: 0.85; }
+  .ph-kicker { font-family: var(--font-body); font-size: 0.85rem; opacity: 0.85; }
   .ph-alias { font-family: var(--font-display); font-size: 2rem; line-height: 1.05; }
   .scard-flag {
     position: absolute; top: 0.8rem; left: 0.8rem;

@@ -52,11 +52,6 @@ const features = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(0, count)
 
 <section class="featured" aria-roledescription="carousel" aria-label="Latest publications" data-featured>
   <div class="wrap featured-inner">
-    <div class="featured-head">
-      <p class="eyebrow">Latest</p>
-      <span class="featured-wordmark">Thinking&nbsp;With<span class="ellip">…</span></span>
-    </div>
-
     <div class="slides">
       {features.map((f, i) => (
         <a
@@ -96,13 +91,6 @@ const features = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(0, count)
 <style>
   .featured { padding-block: clamp(2.2rem, 5vw, 3.6rem) clamp(1.5rem, 3vw, 2.2rem); }
   .featured-inner { max-width: 60rem; margin-inline: auto; }
-  .featured-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
-  .featured-head .eyebrow { margin: 0; }
-  .featured-wordmark {
-    font-family: var(--font-display); font-style: italic; font-weight: 500;
-    font-size: 1.3rem; color: var(--ink-soft);
-  }
-  .featured-wordmark .ellip { color: var(--accent); font-style: normal; }
 
   .slides { display: grid; }
   .slide {

@@ -42,11 +42,6 @@ export const tags: EditorialTag[] = [
     featured: true,
   },
   {
-    slug: 'language',
-    label: 'Language',
-    blurb: 'Work toward a rhetorical theory of language — language as medium, not just tool.',
-  },
-  {
     slug: 'essays',
     label: 'Essays',
     blurb: 'Longer-form writing between episodes.',

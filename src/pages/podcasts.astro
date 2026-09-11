@@ -18,7 +18,18 @@ const counts: Record<string, number> = Object.fromEntries(
       <div class="sub"><SubscribeLinks size="sm" /></div>
 
       <div class="grid">
-        {seasons.map((s) => (
+        {seasons.filter((s) => s.status === 'published').map((s) => (
+          <SeasonCard season={s} count={counts[String(s.number)]} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Upcoming Seasons</p>
+      <div class="grid">
+        {seasons.filter((s) => s.status === 'in-production').map((s) => (
           <SeasonCard season={s} count={counts[String(s.number)]} />
         ))}
       </div>

@@ -35,7 +35,7 @@ export const hosts: Host[] = [
   {
     name: 'Nate DeProspo',
     slug: 'nate-deprospo',
-    role: 'Visiting Assistant Professor, Oberlin College',
+    role: 'Assistant Professor of English at East Stroudsburg University',
     bio: [
       'I am an Assistant Professor of English at East Stroudsburg University in Pennsylvania. My research and teaching interests include rhetorical theory, composition pedagogy, professional communication, continental philosophy, digital rhetoric, and the rhetoric of science. My scholarship takes a rhetorical-theoretical approach to the study of writing practices, academic institutional dynamics, and knowledge production across disciplines.',
       'I teach courses in autotheory and experimental academic writing, rhetorical theory, professional writing and communication, and college writing. My teaching aims to empower students to interpret and produce complex texts with nuance and curiosity. Developing this capacity for intellectual exchange is central to my broader goal of equipping students with the skills and confidence in writing and communication that will support them across their coursework and beyond their college lives. To that end, I ask students to approach their writing as public-facing, with the possibility of publication in mind, even in introductory classes.',

@@ -2,7 +2,7 @@
 title: 'The Pleasure of Being Persuaded'
 description: On learning rhetoric to avoid being duped — and then learning, against the grain of critique, to enjoy it.
 date: 2026-01-30
-author: John Muckelbauer
+author: Nathaniel Street
 tags: ['essays', 'rhetoric']
 ---
 
@@ -23,19 +23,3 @@ We typically think of critique, along with analysis and theory, in terms of a di
 I don't want to stop here. I don't want to end with a dualism between critically distanced un-death on the one hand and foolish life on the other hand. Like I said, I think that practicing rhetoric has, over the years, **taught me** to enjoy being persuaded. It's taught me, not just to be more aware of the persuasive forces that surround me, not just to develop an appreciation for the artifice of a well constructed argument, but it's taught me to indulge in being pushed and pulled on by those forces. To get here, I had to pass through a more analytic, critical, and even suspicious orientation to persuasion. And I didn't just leave that orientation behind to get to some new, more evolved, pleasurable relationship to persuasion. I still have, more or less, that critical edge – and I don't think I could lose it if I tried. But that's not all there is. And critical suspicion isn't even all that critical suspicion can be or do.
 
 So yeah, learn rhetoric so you're less likely to get duped in life. Then keep learning it so that you learn to enjoy being duped all the more.
-
-Okay, well to my mind, I think that the "awareness" of being duped is just another of those persuasive forces pushing and pulling you. We describe it as "stepping back" but it's only stepping back as a way of offering a different viewpoint; it's not "really" stepping back. (And yes, I realize that in order to make this point, I have to rely on the distinction between how things appear and how they ARE; but I'd rather think of it as how they appear and how they appear differently.) To give an example of how "stepping back" is just offering a different viewpoint (and thus how the distinction between appearance and a different appearance works, rather than "appearance/reality"):
-
-We've heard or read variations of this debate many times, particularly around the issue of minimum wage: business owners say that raising the minimum wage will hurt low-skilled workers because it will lead to lost jobs. Labor activists say that it would help low-skilled workers, because a higher income would put more money in their pockets. They can't both be right, since they reach opposite conclusions, and each will say that the other is offering a "false" version of the story: so which is the reality and which is the appearance?
-
-From the perspective of the owners, increasing the minimum wage would increase overall labor costs, so that in order for everything else about the business to remain the same, then one would have to reduce the number of workers.
-
-From the perspective of the activists, the error in that logic is that "everything else" does not have to remain the same. Instead of laying off low-paid workers, one might reduce the salary of all the executives who make exorbitant salaries (from say, $20 million/year to $17 million). Or perhaps reduce the overall business profit and so the wealthy people who hold stock would have slightly reduced earnings (after all, they don't even work for their money).
-
-Of course, the owners respond to this by saying that executive salaries are simply competitive with the market and if they want to hold onto talented executives, they have to pay what other companies do. And if they want to keep the business running they must also remain attractive to investors by showing regular, quarterly growth.
-
-So here we have a case of both sides telling different versions of the same story - neither of which is wrong or a lie. Both are true. And both are incompatible. The differences between them lie only in how one contextualizes the situation (at the level of low-income labor or at the level of corporate America).
-
-The point is that both sides offer persuasive arguments and the issue is NOT a matter of which is true and which is false (or which is the appearance and which is the reality). The actual question here is something more like "which perspective should we adopt for this decision," or "which appearance should we support?" - the workers because there are more of them? Or the owners because they are employers?
-
-Neither perspective removes itself from life, so neither are "stepping back" in any broad sense. But they are offering differing perspectives on the world - both of which are factually correct. The differences between them, then, will be a question of values, and hence never simply objective.

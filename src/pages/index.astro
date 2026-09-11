@@ -1,24 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
-import SeasonCard from '../components/SeasonCard.astro';
 import EpisodeItem from '../components/EpisodeItem.astro';
-import SubscribeLinks from '../components/SubscribeLinks.astro';
 import EditorialBar from '../components/EditorialBar.astro';
+
 import FeaturedLatest from '../components/FeaturedLatest.astro';
-import { show, seasons } from '../data/podcast';
+import { show } from '../data/podcast';
 import episodes from '../data/episodes.json';
-import { getCollection } from 'astro:content';
 import { u } from '../lib/url';
 
-const counts: Record<string, number> = Object.fromEntries(
-  Object.entries(episodes.bySeason).map(([k, v]) => [k, (v as unknown[]).length])
-);
 const latestEps = (episodes.latest as any[]).slice(0, 3);
 
-const posts = (await getCollection('writing'))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 2);
-const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
 <Base>
@@ -28,71 +19,17 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month:
   <!-- ROTATING LATEST FEATURE (replaces the old static overview) -->
   <FeaturedLatest />
 
-  <!-- INTRO: ethos + actions -->
-  <section class="intro">
-    <div class="wrap intro-inner">
-      <p class="hero-ethos">{show.ethos}</p>
-      <div class="hero-actions">
-        <a href={u('/podcasts')} class="btn btn--primary">Browse the seasons</a>
-        <a href={u('/writing')} class="btn btn--ghost">Read the writings</a>
-      </div>
-      <div class="hero-listen"><SubscribeLinks size="sm" /></div>
-    </div>
-  </section>
-
   <!-- LATEST EPISODES -->
   <section class="section latest">
     <div class="wrap">
       <div class="row-head">
         <div>
-          <p class="eyebrow">Latest episodes</p>
-          <h2 class="row-title">Recently published</h2>
+          <p class="eyebrow">The Latest</p>
         </div>
         <a href={u('/seasons/the-gay-science')} class="row-link">All of Season 5 →</a>
       </div>
       <div class="eps">
         {latestEps.map((ep) => <EpisodeItem episode={ep} accent="#B4392F" />)}
-      </div>
-    </div>
-  </section>
-
-  <!-- SEASONS -->
-  <section class="section seasons">
-    <div class="wrap">
-      <div class="row-head">
-        <div>
-          <p class="eyebrow">The seasons</p>
-        </div>
-        <a href={u('/podcasts')} class="row-link">All podcasts →</a>
-      </div>
-      <div class="grid">
-        {seasons.map((s) => <SeasonCard season={s} count={counts[String(s.number)]} />)}
-      </div>
-    </div>
-  </section>
-
-  <!-- WRITING -->
-  <section class="section writing">
-    <div class="wrap">
-      <div class="row-head">
-        <div>
-          <p class="eyebrow">From the page</p>
-          <h2 class="row-title">Writings</h2>
-        </div>
-        <a href={u('/writing')} class="row-link">All writings →</a>
-      </div>
-      <div class="posts">
-        {posts.map((p) => (
-          <a class="post card" href={u(`/writing/${p.slug}`)}>
-            <div class="post-meta">
-              <time datetime={p.data.date.toISOString()}>{fmt(p.data.date)}</time>
-              {p.data.series && <span class="series-tag">{p.data.series}</span>}
-            </div>
-            <h3>{p.data.title}</h3>
-            <p class="post-desc">{p.data.description}</p>
-            <span class="post-by muted">{p.data.author}</span>
-          </a>
-        ))}
       </div>
     </div>
   </section>
@@ -111,20 +48,6 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month:
 </Base>
 
 <style>
-  /* intro: ethos + actions, below the rotating feature */
-  .intro { padding-block: clamp(1.5rem, 4vw, 2.6rem) clamp(2rem, 5vw, 3.5rem); text-align: center; }
-  .intro-inner { max-width: 48rem; margin-inline: auto; }
-  .hero-ethos {
-    font-size: clamp(1.15rem, 2.6vw, 1.5rem);
-    color: var(--ink-soft);
-    max-width: 36rem;
-    margin: 0 auto 2rem;
-    line-height: 1.5;
-    text-wrap: balance;
-  }
-  .hero-actions { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; }
-  .hero-listen { display: flex; justify-content: center; margin-top: 1.8rem; }
-
   /* shared row heads */
   .row-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1.8rem; }
   .row-head .eyebrow { margin-bottom: 0.3rem; }
@@ -135,24 +58,12 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month:
   .latest { background: var(--paper-2); }
   .eps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.6rem; }
-
-  .posts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
-  .post { display: block; text-decoration: none; color: inherit; padding: 1.6rem 1.7rem; transition: transform 0.18s ease, box-shadow 0.18s ease; }
-  .post:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); }
-  .post-meta { display: flex; gap: 0.8rem; font-size: 0.8rem; color: var(--ink-faint); margin-bottom: 0.5rem; }
-  .series-tag { color: var(--accent); font-weight: 600; }
-  .post h3 { font-size: 1.5rem; margin: 0 0 0.4rem; }
-  .post-desc { color: var(--ink-soft); margin: 0 0 0.6rem; font-size: 0.98rem; }
-  .post-by { font-size: 0.85rem; }
-
   .closing { text-align: center; }
   .closing-inner { max-width: 44rem; margin-inline: auto; }
   .closing h2 { font-size: clamp(2rem, 5vw, 3rem); }
   .closing .lede { margin-bottom: 2rem; }
 
   @media (max-width: 680px) {
-    .posts { grid-template-columns: 1fr; }
     .row-head { flex-direction: column; align-items: flex-start; }
   }
 </style>

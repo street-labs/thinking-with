@@ -2,33 +2,46 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import { u } from '../../lib/url';
+import { loadSignedEvents, eventParagraphs } from '../../lib/events';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
-  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+  const md = posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+  const events = loadSignedEvents().map((e) => ({ params: { slug: e.slug }, props: { event: e } }));
+  return [...md, ...events];
 }
 
-const { post } = Astro.props as { post: CollectionEntry<'writing'> };
-const { Content } = await post.render();
+const props = Astro.props as { post?: CollectionEntry<'writing'>; event?: any };
+const signed = props.event ?? null;
+const post = props.post!;
+const { Content } = signed ? { Content: null } : await post.render();
 const fmt = (d: Date) =>
   d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
 
-<Base title={post.data.title} description={post.data.description}>
+<Base title={signed ? signed.title : post.data.title} description={signed ? signed.description : post.data.description}>
   <article class="article">
     <div class="wrap prose-wrap">
       <a href={u('/writing')} class="back">← Writing</a>
       <header class="article-head">
-        {post.data.series && <p class="eyebrow">{post.data.series}</p>}
-        <h1>{post.data.title}</h1>
-        <p class="article-desc">{post.data.description}</p>
+        {!signed && post.data.series && <p class="eyebrow">{post.data.series}</p>}
+        <h1>{signed ? signed.title : post.data.title}</h1>
+        {signed ? <p class="article-desc">{signed.description}</p> : <p class="article-desc">{post.data.description}</p>}
         <p class="article-meta muted">
-          {post.data.author} · <time datetime={post.data.date.toISOString()}>{fmt(post.data.date)}</time>
-          {post.data.draft && <span class="pill draft">Draft</span>}
+          {signed ? signed.author : post.data.author} · <time datetime={(signed ? signed.date : post.data.date).toISOString()}>{fmt(signed ? signed.date : post.data.date)}</time>
+          {!signed && post.data.draft && <span class="pill draft">Draft</span>}
         </p>
+        {signed && (
+          <p class="article-meta muted">
+            <span class="pill draft">Signed</span>
+            <a href={`https://njump.me/${signed.nevent}`}>Verify signature</a>
+          </p>
+        )}
       </header>
       <div class="prose">
-        <Content />
+        {signed
+          ? eventParagraphs(signed.content).map((p) => <p>{p}</p>)
+          : <Content />}
       </div>
     </div>
   </article>

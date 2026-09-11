@@ -19,6 +19,7 @@ Read the README above first: it explains what this site is, how to run it
   or amend. `main` auto-deploys to staging
   (https://street-labs.github.io/thinking-with/) - reviewers verify changes
   there; if something is wrong, revert or modify the commit.
+- Content rule (per Luke/nstreet, 2026-09): never write or generate text for the website (bylines, headers, intros, blurbs, anything publishable) unless explicitly asked. Only add text the authors provide. If a space seems to need text, point it out instead of filling it. All published text must be the authors' own writing.
 - No destructive commands (no `sudo`, no installs outside the project, no `rm`
   outside the worktree).
 - Keep changes minimal and focused; one concern per PR.

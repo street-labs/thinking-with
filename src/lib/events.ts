@@ -41,7 +41,7 @@ export function loadSignedEvents(): SignedEvent[] {
         author: AUTHORS[ev.pubkey] ?? 'Unknown',
         pubkey: ev.pubkey,
         id: ev.id,
-        nevent: nip19.neventEncode({ id: ev.id, author: ev.pubkey, kind: ev.kind }),
+        nevent: nip19.neventEncode({ id: ev.id, author: ev.pubkey, kind: ev.kind, relays: ['wss://relay.damus.io', 'wss://nos.lol', 'wss://relay.primal.net'] }),
       }
     })
 }

@@ -50,6 +50,8 @@ async function signWithBunker() {
   const bp = await parseBunkerInput($('bunker').value.trim())
   if (!bp) throw new Error('could not read that bunker string')
   const signer = BunkerSigner.fromBunker(generateSecretKey(), bp)
+  // Clave-style bunkers require a fresh connect handshake (secret is single-use)
+  await signer.connect({ name: 'Thinking With' })
   try {
     return await signer.signEvent(unsigned)
   } finally { signer.close?.() }

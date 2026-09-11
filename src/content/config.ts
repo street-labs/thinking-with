@@ -10,6 +10,7 @@ const writing = defineCollection({
     series: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    image: z.string().optional(),
   }),
 });
 

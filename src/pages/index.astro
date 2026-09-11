@@ -101,7 +101,9 @@ const latest = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(3, 15);
   }
   .latest-item.bare > span,
   .latest-item.bare > h3 { display: none; }
-  .latest-item.has-cover .latest-title { font-size: 1.25rem; }
+  .latest-item.has-cover .latest-title { font-size: 1.25rem; color: #f3efe8; }
+  /* Crow crop: shrink to fit fully inside the frame, anchored right. */
+  .latest-item.crow { background-size: cover, auto 100%; background-position: center, right center; }
   .latest-item.has-cover .latest-date { color: rgba(243, 239, 232, 0.85); }
   .latest-item.has-cover .latest-kind { color: #f0c9a8; }
   .latest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }

@@ -132,6 +132,9 @@ const features = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(0, count)
   .slide.bare > h2 { display: none; }
   .slide.has-cover .slide-meta { color: rgba(243, 239, 232, 0.85); }
   .slide.has-cover .slide-kind { color: #f0c9a8; }
+  .slide.has-cover .slide-title { color: #f3efe8; }
+  /* Crow crop: shrink to fit fully inside the frame, anchored right. */
+  .slide.crow { background-size: cover, auto 100%; background-position: center, right center; }
   .slide-title { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 0; line-height: 1.08; }
   .slide-desc { font-size: 1.1rem; color: var(--ink-soft); margin: 0; max-width: 44rem; }
   .slide-meta { font-size: 0.85rem; }

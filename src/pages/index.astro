@@ -29,6 +29,7 @@ const eps = allEpisodes
     description: ep.description ?? `${ep.seasonAlias} — ${ep.title}`,
     dateLabel: ep.dateLabel,
     ts: new Date(ep.date).valueOf(),
+    cover: ep.seasonCover,
   }));
 const latest = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(3, 15);
 ---
@@ -50,7 +51,11 @@ const latest = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(3, 15);
       </div>
       <div class="latest-grid">
         {latest.map((item) => (
-          <a class="latest-item card" href={item.href}>
+          <a
+            class:list={['latest-item card', { 'has-cover': !!item.cover }]}
+            style={item.cover ? `--cover:url(${item.cover})` : undefined}
+            href={item.href}
+          >
             <span class="latest-kind">{item.kind}</span>
             <h3 class="latest-title">{item.title}</h3>
             <p class="latest-desc">{item.description}</p>
@@ -82,6 +87,17 @@ const latest = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(3, 15);
   .row-link:hover { color: var(--accent-deep); }
 
   .latest { background: var(--paper-2); }
+  /* Season cover as card background, top-anchored under a scrim. */
+  .latest-item.has-cover {
+    background-image: linear-gradient(rgba(22, 18, 14, 0.5), rgba(22, 18, 14, 0.5)), var(--cover);
+    background-size: cover;
+    background-position: center top;
+    color: #f3efe8;
+    border-left-color: #f0c9a8;
+  }
+  .latest-item.has-cover .latest-desc { color: rgba(243, 239, 232, 0.82); }
+  .latest-item.has-cover .latest-date { color: rgba(243, 239, 232, 0.65); }
+  .latest-item.has-cover .latest-kind { color: #f0c9a8; }
   .latest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   .latest-item {
     display: flex; flex-direction: column; gap: 0.45rem;

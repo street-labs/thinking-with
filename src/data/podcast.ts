@@ -97,7 +97,7 @@ export const seasons: Season[] = [
     number: 7,
     slug: 'critique',
     alias: 'Critique',
-    thinker: 'An idea, not a text',
+    thinker: '',
     work: 'critique',
     title: 'Thinking With… Critique',
     accent: '#3F5D63',

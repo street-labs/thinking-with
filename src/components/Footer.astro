@@ -15,7 +15,7 @@ const published = seasons.filter((s) => s.status === 'published');
     <nav class="foot-col" aria-label="Seasons">
       <h3>Seasons</h3>
       {published.map((s) => (
-        <a href={u(`/seasons/${s.slug}`)}>{`Season ${s.number} — ${s.thinker}`}</a>
+        <a href={u(`/seasons/${s.slug}`)}>{s.thinker ? `Season ${s.number} — ${s.thinker}` : `Season ${s.number} — ${s.alias}`}</a>
       ))}
     </nav>
 

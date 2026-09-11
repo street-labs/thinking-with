@@ -35,7 +35,7 @@ const inProduction = season.status === 'in-production';
       </div>
       <div class="hero-text">
         <a href={u('/podcasts')} class="back">← All seasons</a>
-        <p class="eyebrow on-accent">Season {season.number} · {season.thinker}</p>
+        <p class="eyebrow on-accent">Season {season.number}{season.thinker && ` · ${season.thinker}`}</p>
         <h1 class="hero-title">{season.alias}</h1>
         <p class="hero-work">Thinking With… <em>{season.work}</em></p>
         {season.theme && <p class="hero-theme">Organized around <strong>{season.theme}</strong></p>}

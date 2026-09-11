@@ -24,7 +24,7 @@ const $ = (id) => document.getElementById(id)
 let unsigned = null
 
 // preview shows the full essay - you should read what you sign
-import { generateSecretKey, BunkerSigner, parseBunkerInput } from './vendor/nostr-tools.js'
+import { generateSecretKey, getPublicKey, finalizeEvent, nip19, BunkerSigner, parseBunkerInput, createNostrConnectURI } from './vendor/nostr-tools.js'
 
 async function load() {
   if (!location.hash) { $('nolink').classList.remove('hide'); return }
@@ -57,6 +57,27 @@ async function signWithBunker() {
   } finally { signer.close?.() }
 }
 
+function randomHex(n) {
+  const b = new Uint8Array(n); crypto.getRandomValues(b)
+  return Array.from(b, (x) => x.toString(16).padStart(2, '0')).join('')
+}
+
+async function connectAndSign() {
+  const sk = generateSecretKey()
+  const relay = $('relay').value.trim()
+  const uri = createNostrConnectURI({
+    clientPubkey: getPublicKey(sk),
+    relays: relay ? [relay] : ['wss://relay.damus.io'],
+    secret: randomHex(16),
+    name: 'Thinking With'
+  })
+  $('connectUri').textContent = uri
+  $('connectStep2').classList.remove('hide')
+  $('err').textContent = 'Waiting for approval in your signer app…'
+  const signer = await BunkerSigner.fromURI(sk, uri)
+  return await signer.signEvent(unsigned)
+}
+
 async function sign(ev) {
   $('result').textContent = JSON.stringify(ev, null, 2)
   $('done').classList.remove('hide')
@@ -71,6 +92,10 @@ $('extBtn').onclick = async () => {
 $('nsecBtn').onclick = async () => {
   try { await sign(await signWithNsec()) } catch (e) { $('err').textContent = 'Could not read that key: ' + e }
 }
+$('connectBtn').onclick = async () => {
+  try { await sign(await connectAndSign()) } catch (e) { $('err').textContent = 'Connect: ' + (e.message || e) }
+}
+$('copyUri').onclick = () => navigator.clipboard.writeText($('connectUri').textContent)
 $('bunkerBtn').onclick = async () => {
   try { await sign(await signWithBunker()) } catch (e) { $('err').textContent = 'Bunker: ' + (e.message || e) }
 }
@@ -93,9 +118,15 @@ load()
   <p><small>Nostr browser extension (Alby, nos2x, or the Buzz portal) will ask you to confirm.</small></p>
 
   <div id="fallback" class="hide">
-    <p><strong>Or sign with a signer app</strong> (Clave, nsecBunker). Paste your bunker connect string:</p>
+    <p><strong>Or sign with a signer app</strong> (Clave, nsecBunker, etc.). Tap connect, copy the link it shows, and paste it into your signer app's connect field. Approve there.</p>
+    <input id="relay" placeholder="relay (optional) e.g. wss://relay.damus.io">
+    <button id="connectBtn">Connect a signer app</button>
+    <pre id="connectUri" class="hide"></pre>
+    <button id="copyUri" class="hide">Copy connect link</button>
+    <p id="connectStep2" class="hide"><small>Paste the link above into your signer app (Clave → connect client), then approve the signing request.</small></p>
+    <p><strong>Or paste a bunker string</strong> if your signer gave you one (starts with <code>bunker://</code>):</p>
     <input id="bunker" placeholder="bunker://…">
-    <button id="bunkerBtn">Sign with signer app</button>
+    <button id="bunkerBtn">Sign with bunker string</button>
     <p><strong>Or paste your key</strong> (starts with <code>nsec1</code>). It is used only in this tab, never sent anywhere, and cleared after signing.</p>
     <input id="nsec" type="password" placeholder="nsec1…">
     <button id="nsecBtn">Sign with pasted key</button>

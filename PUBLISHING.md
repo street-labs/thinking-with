@@ -93,6 +93,19 @@ NSITE_NSEC=<site key nsec> npx nsite-cli upload dist/
 
 nsite-cli only re-uploads changed files, so updates are cheap.
 
+### Timestamps (OpenTimestamps)
+
+Every signed event gets a Bitcoin-anchored proof of existence, so the
+published content's timestamp is independent of relays or any log we
+control. Costs nothing (batched into other people's Bitcoin transactions).
+
+- On adding a new event: `npm run stamp` - creates `src/content/events/<event>.json.ots`.
+- Within a day or so: `node node_modules/opentimestamps/ots-cli.js upgrade src/content/events/*.ots`
+  - this detaches the proof from the calendar operators; after upgrade it verifies
+    against Bitcoin headers only.
+- Verify any time: `node node_modules/opentimestamps/ots-cli.js verify <file>.ots <file>`. Commit
+  the `.ots` files alongside the events; upgrade them in place.
+
 ### One-time setup (GitHub Pages live repo, pending)
 
 - [ ] Create the `thinking-with-live` repo (needs `gh` auth or Luke's click).

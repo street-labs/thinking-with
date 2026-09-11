@@ -132,7 +132,7 @@ export const seasons: Season[] = [
     work: 'The Gay Science',
     title: 'Thinking With… The Gay Science',
     cover: '/covers/season-5.png',
-    cardCover: '/covers/cards/season-5-crow.png',
+    cardCover: '/covers/cards/season-5-crow-v2.png',
     accent: '#B4392F',
     accentInk: '#F6F0E1',
     status: 'published',

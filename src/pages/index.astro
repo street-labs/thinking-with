@@ -52,9 +52,10 @@ const latest = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(3, 15);
       <div class="latest-grid">
         {latest.map((item) => (
           <a
-            class:list={['latest-item card', { 'has-cover': !!item.cover }]}
+            class:list={['latest-item card', { 'has-cover': !!item.cover, crow: !!item.cover?.includes('crow'), bare: !!item.cover && !item.cover.includes('crow') }]}
             style={item.cover ? `--cover:url(${item.cover})` : undefined}
             href={item.href}
+            aria-label={item.cover && !item.cover.includes('crow') ? item.title : undefined}
           >
             <span class="latest-kind">{item.kind}</span>
             <h3 class="latest-title">{item.title}</h3>
@@ -86,21 +87,22 @@ const latest = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(3, 15);
   .row-link:hover { color: var(--accent-deep); }
 
   .latest { background: var(--paper-2); }
-  /* Season art as a right-side band under a left-to-right scrim:
-     text sits on solid dark at the left, art shows at the right. */
+  /* Season art full-bleed. Crow slide keeps its text under a uniform darkening;
+     other seasons' slides are image-only, text hidden. */
   .latest-item.has-cover {
-    background-image:
-      linear-gradient(90deg, rgba(22, 18, 14, 0.98) 0%, rgba(22, 18, 14, 0.93) 55%, rgba(22, 18, 14, 0.42) 100%),
-      var(--cover);
-    background-size: 100% 100%, auto 115%;
-    background-position: center, right center;
+    background-image: linear-gradient(rgba(22, 18, 14, 0.45), rgba(22, 18, 14, 0.45)), var(--cover);
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
     color: #f3efe8;
     min-height: 11rem;
     border-left-color: #f0c9a8;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
   }
+  .latest-item.bare > span,
+  .latest-item.bare > h3 { display: none; }
   .latest-item.has-cover .latest-title { font-size: 1.25rem; }
-  .latest-item.has-cover .latest-date { color: rgba(243, 239, 232, 0.7); }
+  .latest-item.has-cover .latest-date { color: rgba(243, 239, 232, 0.85); }
   .latest-item.has-cover .latest-kind { color: #f0c9a8; }
   .latest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
   .latest-item {

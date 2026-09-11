@@ -56,7 +56,10 @@ const all: Episode[] = Object.entries(
       accentInk: s?.accentInk ?? 'var(--accent-ink)',
       seasonAlias: s?.alias ?? (key === 'one-offs' ? 'One-offs' : `Season ${ep.season}`),
       seasonSlug: s?.slug,
-      seasonCover: s?.cover ? `${import.meta.env.BASE_URL}${s.cover}` : undefined,
+      seasonCover: (() => {
+        const c = s?.cardCover ?? s?.cover;
+        return c ? `${import.meta.env.BASE_URL}${c}` : undefined;
+      })(),
     } as Episode;
   })
 );

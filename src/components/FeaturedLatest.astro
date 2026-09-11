@@ -64,9 +64,7 @@ const features = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(0, count)
         >
           <span class="slide-kind">{f.kind}</span>
           <h2 class="slide-title">{f.title}</h2>
-          <p class="slide-desc">{f.description}</p>
-          <span class="slide-meta muted">{f.dateLabel} · {f.meta}</span>
-          <span class="slide-go">Read this →</span>
+          <span class="slide-meta muted">{f.dateLabel}</span>
         </a>
       ))}
     </div>
@@ -118,17 +116,20 @@ const features = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(0, count)
     font-family: var(--font-body); font-size: 0.7rem; font-weight: 700;
     letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-deep);
   }
-  /* Season cover as slide background, under a scrim for readability. */
+  /* Season art as a right-side band under a left-to-right scrim:
+     text sits on solid dark at the left, art shows at the right. */
   .slide.has-cover {
-    background-image: linear-gradient(rgba(22, 18, 14, 0.5), rgba(22, 18, 14, 0.5)), var(--cover);
-    background-size: cover;
-    background-position: center top;
+    background-image:
+      linear-gradient(90deg, rgba(22, 18, 14, 0.98) 0%, rgba(22, 18, 14, 0.93) 55%, rgba(22, 18, 14, 0.42) 100%),
+      var(--cover);
+    background-size: 100% 100%, auto 115%;
+    background-position: center, right center;
+    background-repeat: no-repeat;
     color: #f3efe8;
+    min-height: 14rem;
   }
-  .slide.has-cover .slide-desc { color: rgba(243, 239, 232, 0.82); }
-  .slide.has-cover .slide-meta { color: rgba(243, 239, 232, 0.65); }
-  .slide.has-cover .slide-kind,
-  .slide.has-cover .slide-go { color: #f0c9a8; }
+  .slide.has-cover .slide-meta { color: rgba(243, 239, 232, 0.7); }
+  .slide.has-cover .slide-kind { color: #f0c9a8; }
   .slide-title { font-size: clamp(1.7rem, 4vw, 2.6rem); margin: 0; line-height: 1.08; }
   .slide-desc { font-size: 1.1rem; color: var(--ink-soft); margin: 0; max-width: 44rem; }
   .slide-meta { font-size: 0.85rem; }

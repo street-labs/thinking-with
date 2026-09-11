@@ -84,6 +84,9 @@ export type Season = {
    */
   theme?: string;
   cover?: string;
+  /** Square accent crop for use as a card/carousel background, when the full
+   *  cover's focal element should be isolated. Falls back to `cover`. */
+  cardCover?: string;
   accent: string;
   accentInk: string; // readable text color on the accent
   blurb: string;
@@ -129,6 +132,7 @@ export const seasons: Season[] = [
     work: 'The Gay Science',
     title: 'Thinking With… The Gay Science',
     cover: '/covers/season-5.png',
+    cardCover: '/covers/cards/season-5-crow.png',
     accent: '#B4392F',
     accentInk: '#F6F0E1',
     status: 'published',

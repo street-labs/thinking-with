@@ -24,7 +24,7 @@ const description = host.bio.length
 
       <div class="bio">
         {host.bio.length > 0 ? (
-          host.bio.map((p) => <p>{p}</p>)
+          host.bio.map((p) => <p set:html={p.replace(/\*([^*]+)\*/g, '<em>$1</em>')} />)
         ) : (
           <p class="ph muted">
             ⚙︎ {host.name}'s bio is coming soon — this page is ready and renders from

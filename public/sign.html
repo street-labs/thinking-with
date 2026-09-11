@@ -25,9 +25,13 @@ let unsigned = null
 import { generateSecretKey, getPublicKey, finalizeEvent, nip19, BunkerSigner, parseBunkerInput, createNostrConnectURI } from './vendor/nostr-tools.js'
 
 async function load() {
-  if (!location.hash) { $('nolink').classList.remove('hide'); return }
+  // essay source: #fragment (full JSON) or ?essay=<name> -> /essays/<name>.json on this site
+  const name = new URLSearchParams(location.search).get('essay')
+  if (!location.hash && !name) { $('nolink').classList.remove('hide'); return }
   try {
-    unsigned = JSON.parse(decodeURIComponent(location.hash.slice(1)))
+    unsigned = name
+      ? await (await fetch(`essays/${encodeURIComponent(name)}.json`)).json()
+      : JSON.parse(decodeURIComponent(location.hash.slice(1)))
   } catch { $('badlink').classList.remove('hide'); return }
   $('preview').textContent =
     `Title: ${unsigned.tags.find(([k]) => k === 'title')?.[1] ?? '(untitled)'}\n\n` +

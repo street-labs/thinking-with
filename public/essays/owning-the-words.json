@@ -1,0 +1,15 @@
+{
+  "kind": 30023,
+  "created_at": 1789094297,
+  "tags": [
+    [
+      "title",
+      "Owning the Words"
+    ],
+    [
+      "published_at",
+      "1789094297"
+    ]
+  ],
+  "content": "If you write for a living, you already live through intermediaries. A journal takes two years and your copyright. A social platform takes your audience and changes the rules on a whim. A blog host takes a monthly fee and could disappear tomorrow. In each case, the words are yours but the ground under them is not.\n\nThis site is an experiment in a different arrangement, and the technology behind it is simpler than it sounds. There is a way to attach a permanent, unforgeable signature to a piece of writing: a seal that belongs to the author alone and travels with the text wherever it goes. No company issues it, no platform administers it, and it stays valid no matter where the essay is copied.\n\nHow the seal works, in three sentences. Each author holds a secret key, known to no one else; from it comes a public name, which anyone can see. A signature made with the secret key is like a mathematical proof: anyone can run the steps themselves and arrive at certainty that this key made this signature, over exactly these words, and no other. Change a word and the proof fails; steal the key and you become the author - which is why the author alone keeps it.\n\nWhat this means for the writer is ownership you can feel. An essay published this way is not stored in a database you rent or an account you could lose. It is a self-contained object - words, date, and name, bound together by a signature that only you can produce. You can move it anywhere: another site, a print journal, an archive, a reader's own files. The essay does not need permission to travel. No one can quietly revise it or take it down, because no one else holds the pen.\n\nWhat this means for you, the reader, is that the essays outlive us. If this site vanished tomorrow, every piece would survive - still intact, still attributed, still sealed by its author. Publication stops being a place you visit and becomes a thing that exists, carried from hand to hand like a printed pamphlet, except the signature on it can never be forged.\n\nThe essays on this site are published this way from now on. We still host them, and hosting is a service we are glad to provide. But hosting is no longer the source of the work's life. The words belong to whoever wrote them, and the proof of that travels with them, available to anyone who cares to look.\n\nOwn the words. Let them move freely. Let them last."
+}

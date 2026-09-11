@@ -16,8 +16,9 @@ interface Props {
     description?: string;
   };
   accent?: string;
+  cover?: string;
 }
-const { episode: ep, accent = 'var(--accent)' } = Astro.props;
+const { episode: ep, accent = 'var(--accent)', cover } = Astro.props;
 const slug = ep.guid ? slugByGuid.get(ep.guid) : undefined;
 const transcript = ep.guid ? hasTranscript(ep.guid) : false;
 
@@ -37,7 +38,10 @@ function fmtDuration(d?: string) {
 const label = ep.kind === 'intro' ? 'Intro' : ep.episode ? `Ep. ${ep.episode}` : 'Episode';
 ---
 
-<article class="ep card" style={`--ep-accent:${accent}`}>
+<article
+  class:list={['ep card', { 'has-cover': !!cover }]}
+  style={`--ep-accent:${accent}${cover ? `;--cover:url(${cover})` : ''}`}
+>
   <div class="ep-head">
     <span class="ep-no">{label}</span>
     <h3 class="ep-title">
@@ -83,6 +87,19 @@ const label = ep.kind === 'intro' ? 'Intro' : ep.episode ? `Ep. ${ep.episode}` :
   .ep-desc { margin: 0; color: var(--ink-soft); font-size: 0.98rem; }
   .ep-audio { width: 100%; height: 40px; margin-top: 0.2rem; }
   .ep-audio::-webkit-media-controls-panel { background: var(--paper-2); }
+  /* Season cover as card background, under a scrim for readability. */
+  .ep.has-cover {
+    background-image: linear-gradient(rgba(22, 18, 14, 0.78), rgba(22, 18, 14, 0.78)), var(--cover);
+    background-size: cover;
+    background-position: center;
+    color: #f3efe8;
+  }
+  .ep.has-cover .ep-title a { color: inherit; }
+  .ep.has-cover .ep-desc { color: rgba(243, 239, 232, 0.82); }
+  .ep.has-cover .ep-meta { color: rgba(243, 239, 232, 0.65); }
+  .ep.has-cover .ep-no,
+  .ep.has-cover .ep-link { color: #f0c9a8; }
+  .ep.has-cover .ep-audio::-webkit-media-controls-panel { background: rgba(22, 18, 14, 0.9); }
   .ep-links { display: flex; gap: 1rem; }
   .ep-link {
     font-family: var(--font-body); font-size: 0.82rem; font-weight: 600;

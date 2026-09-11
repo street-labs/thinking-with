@@ -21,6 +21,7 @@ export interface Episode {
   accentInk: string;
   seasonAlias: string;
   seasonSlug?: string;
+  seasonCover?: string;
 }
 
 function slugify(s: string): string {
@@ -55,6 +56,7 @@ const all: Episode[] = Object.entries(
       accentInk: s?.accentInk ?? 'var(--accent-ink)',
       seasonAlias: s?.alias ?? (key === 'one-offs' ? 'One-offs' : `Season ${ep.season}`),
       seasonSlug: s?.slug,
+      seasonCover: s?.cover,
     } as Episode;
   })
 );

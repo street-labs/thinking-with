@@ -4,11 +4,12 @@ import EpisodeItem from '../components/EpisodeItem.astro';
 import EditorialBar from '../components/EditorialBar.astro';
 
 import FeaturedLatest from '../components/FeaturedLatest.astro';
-import { show } from '../data/podcast';
+import { show, seasons } from '../data/podcast';
 import episodes from '../data/episodes.json';
 import { u } from '../lib/url';
 
 const latestEps = (episodes.latest as any[]).slice(0, 3);
+const coverBySeason = new Map(seasons.map((s) => [s.number, s.cover]));
 
 ---
 
@@ -29,7 +30,7 @@ const latestEps = (episodes.latest as any[]).slice(0, 3);
         <a href={u('/seasons/the-gay-science')} class="row-link">All of Season 5 →</a>
       </div>
       <div class="eps">
-        {latestEps.map((ep) => <EpisodeItem episode={ep} accent="#B4392F" />)}
+        {latestEps.map((ep) => <EpisodeItem episode={ep} accent="#B4392F" cover={coverBySeason.get(ep.season)} />)}
       </div>
     </div>
   </section>

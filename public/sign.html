@@ -24,6 +24,7 @@ const $ = (id) => document.getElementById(id)
 let unsigned = null
 
 // preview shows the full essay - you should read what you sign
+import { generateSecretKey, BunkerSigner, parseBunkerInput } from './vendor/nostr-tools.js'
 
 async function load() {
   if (!location.hash) { $('nolink').classList.remove('hide'); return }
@@ -47,6 +48,15 @@ async function signWithNsec() {
   return signed
 }
 
+async function signWithBunker() {
+  const bp = await parseBunkerInput($('bunker').value.trim())
+  if (!bp) throw new Error('could not read that bunker string')
+  const signer = BunkerSigner.fromBunker(generateSecretKey(), bp)
+  try {
+    return await signer.signEvent(unsigned)
+  } finally { signer.close?.() }
+}
+
 async function sign(ev) {
   $('result').textContent = JSON.stringify(ev, null, 2)
   $('done').classList.remove('hide')
@@ -60,6 +70,9 @@ $('extBtn').onclick = async () => {
 }
 $('nsecBtn').onclick = async () => {
   try { await sign(await signWithNsec()) } catch (e) { $('err').textContent = 'Could not read that key: ' + e }
+}
+$('bunkerBtn').onclick = async () => {
+  try { await sign(await signWithBunker()) } catch (e) { $('err').textContent = 'Bunker: ' + (e.message || e) }
 }
 $('copy').onclick = () => navigator.clipboard.writeText($('result').textContent)
 
@@ -80,6 +93,9 @@ load()
   <p><small>Nostr browser extension (Alby, nos2x, or the Buzz portal) will ask you to confirm.</small></p>
 
   <div id="fallback" class="hide">
+    <p><strong>Or sign with a signer app</strong> (Clave, nsecBunker). Paste your bunker connect string:</p>
+    <input id="bunker" placeholder="bunker://…">
+    <button id="bunkerBtn">Sign with signer app</button>
     <p><strong>Or paste your key</strong> (starts with <code>nsec1</code>). It is used only in this tab, never sent anywhere, and cleared after signing.</p>
     <input id="nsec" type="password" placeholder="nsec1…">
     <button id="nsecBtn">Sign with pasted key</button>

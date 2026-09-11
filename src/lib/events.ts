@@ -22,6 +22,7 @@ export type SignedEvent = {
   pubkey: string
   id: string
   nevent: string
+  raw: string
 }
 
 export function loadSignedEvents(): SignedEvent[] {
@@ -41,7 +42,8 @@ export function loadSignedEvents(): SignedEvent[] {
         author: AUTHORS[ev.pubkey] ?? 'Unknown',
         pubkey: ev.pubkey,
         id: ev.id,
-        nevent: nip19.neventEncode({ id: ev.id, author: ev.pubkey, kind: ev.kind, relays: ['wss://relay.damus.io', 'wss://nos.lol', 'wss://relay.primal.net'] }),
+        nevent: nip19.neventEncode({ id: ev.id, author: ev.pubkey, kind: ev.kind }),
+        raw: JSON.stringify(ev),
       }
     })
 }

@@ -34,7 +34,8 @@ const fmt = (d: Date) =>
         {signed && (
           <p class="article-meta muted">
             <span class="pill draft">Signed</span>
-            <a href={`https://njump.me/${signed.nevent}`}>Verify signature</a>
+            <button id="verify-btn" type="button">Verify signature</button>
+            <span id="verify-result"></span>
           </p>
         )}
       </header>
@@ -46,6 +47,19 @@ const fmt = (d: Date) =>
     </div>
   </article>
 </Base>
+
+{signed && (
+  <script type="module">
+    import { verifyEvent } from '/thinking-with/vendor/nostr-tools.js'
+    const ev = ${signed.raw};
+    document.getElementById('verify-btn')?.addEventListener('click', () => {
+      const ok = verifyEvent(ev)
+      document.getElementById('verify-result').textContent = ok
+        ? 'Valid - signed by ' + ev.pubkey.slice(0, 8) + '…'
+        : 'INVALID signature'
+    })
+  </script>
+)}
 
 <style>
   .article { padding-block: clamp(2.5rem, 6vw, 4rem); }

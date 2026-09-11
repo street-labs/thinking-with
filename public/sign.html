@@ -23,7 +23,7 @@ import { finalizeEvent, nip19 } from './vendor/nostr-tools.js'
 const $ = (id) => document.getElementById(id)
 let unsigned = null
 
-function short(s, n = 400) { return s.length > n ? s.slice(0, n) + '…' : s }
+// preview shows the full essay - you should read what you sign
 
 async function load() {
   if (!location.hash) { $('nolink').classList.remove('hide'); return }
@@ -32,7 +32,7 @@ async function load() {
   } catch { $('badlink').classList.remove('hide'); return }
   $('preview').textContent =
     `Title: ${unsigned.tags.find(([k]) => k === 'title')?.[1] ?? '(untitled)'}\n\n` +
-    short(unsigned.content)
+    unsigned.content
 }
 
 async function signWithExtension() {

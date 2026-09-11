@@ -1,16 +1,36 @@
 ---
 import Base from '../layouts/Base.astro';
-import EpisodeItem from '../components/EpisodeItem.astro';
 import EditorialBar from '../components/EditorialBar.astro';
 
 import FeaturedLatest from '../components/FeaturedLatest.astro';
-import { show, seasons } from '../data/podcast';
-import episodes from '../data/episodes.json';
+import { show } from '../data/podcast';
+import { allEpisodes } from '../lib/episodes';
 import { u } from '../lib/url';
+import { getCollection } from 'astro:content';
 
-const latestEps = (episodes.latest as any[]).slice(0, 3);
-const coverBySeason = new Map(seasons.map((s) => [s.number, s.cover]));
+// Combined chronological feed of publications (essays + episodes), newest first.
+// First 3 are the featured carousel; "The Latest" lists the next 12.
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
+const essays = (await getCollection('writing')).map((p) => ({
+  kind: 'Essay',
+  href: u(`/writing/${p.slug}`),
+  title: p.data.title,
+  description: p.data.description,
+  dateLabel: fmt(p.data.date),
+  ts: p.data.date.valueOf(),
+}));
+const eps = allEpisodes
+  .filter((ep) => ep.slug)
+  .map((ep) => ({
+    kind: 'Episode',
+    href: u(`/episodes/${ep.slug}`),
+    title: ep.title,
+    description: ep.description ?? `${ep.seasonAlias} — ${ep.title}`,
+    dateLabel: ep.dateLabel,
+    ts: new Date(ep.date).valueOf(),
+  }));
+const latest = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(3, 15);
 ---
 
 <Base>
@@ -20,17 +40,23 @@ const coverBySeason = new Map(seasons.map((s) => [s.number, s.cover]));
   <!-- ROTATING LATEST FEATURE (replaces the old static overview) -->
   <FeaturedLatest />
 
-  <!-- LATEST EPISODES -->
+  <!-- THE LATEST: next 12 publications after the featured three -->
   <section class="section latest">
     <div class="wrap">
       <div class="row-head">
         <div>
           <p class="eyebrow">The Latest</p>
         </div>
-        <a href={u('/seasons/the-gay-science')} class="row-link">All of Season 5 →</a>
       </div>
-      <div class="eps">
-        {latestEps.map((ep) => <EpisodeItem episode={ep} accent="#B4392F" cover={coverBySeason.get(ep.season)} />)}
+      <div class="latest-grid">
+        {latest.map((item) => (
+          <a class="latest-item card" href={item.href}>
+            <span class="latest-kind">{item.kind}</span>
+            <h3 class="latest-title">{item.title}</h3>
+            <p class="latest-desc">{item.description}</p>
+            <span class="latest-date muted">{item.dateLabel}</span>
+          </a>
+        ))}
       </div>
     </div>
   </section>
@@ -52,19 +78,34 @@ const coverBySeason = new Map(seasons.map((s) => [s.number, s.cover]));
   /* shared row heads */
   .row-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1.8rem; }
   .row-head .eyebrow { margin-bottom: 0.3rem; }
-  .row-title { font-size: clamp(1.8rem, 4vw, 2.6rem); margin: 0; }
   .row-link { font-family: var(--font-body); font-weight: 600; font-size: 0.95rem; color: var(--ink); text-decoration: none; white-space: nowrap; }
   .row-link:hover { color: var(--accent-deep); }
 
   .latest { background: var(--paper-2); }
-  .eps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+  .latest-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .latest-item {
+    display: flex; flex-direction: column; gap: 0.45rem;
+    text-decoration: none; color: inherit;
+    border-left: 3px solid var(--accent);
+    padding: 1.2rem 1.3rem;
+  }
+  .latest-item:hover { box-shadow: var(--shadow-lift); }
+  .latest-kind {
+    font-family: var(--font-body); font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-deep);
+  }
+  .latest-title { font-size: 1.15rem; margin: 0; line-height: 1.2; }
+  .latest-desc { color: var(--ink-soft); margin: 0; font-size: 0.92rem; }
+  .latest-date { font-size: 0.8rem; margin-top: auto; }
 
   .closing { text-align: center; }
   .closing-inner { max-width: 44rem; margin-inline: auto; }
   .closing h2 { font-size: clamp(2rem, 5vw, 3rem); }
   .closing .lede { margin-bottom: 2rem; }
 
-  @media (max-width: 680px) {
+  @media (max-width: 900px) { .latest-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) {
+    .latest-grid { grid-template-columns: 1fr; }
     .row-head { flex-direction: column; align-items: flex-start; }
   }
 </style>

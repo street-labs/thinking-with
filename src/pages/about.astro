@@ -10,6 +10,20 @@ import { u } from '../lib/url';
       <p class="eyebrow">About</p>
 
       <div class="body">
+        <h2>Who we are</h2>
+        <p>We're three academics who specialize in rhetorical theory.</p>
+        <ul class="hosts">
+          {hosts.map((h) => (
+            <li class="host">
+              <a class="host-link" href={u(`/about/${h.slug}`)}>
+                <span class="host-name">{h.name}</span>
+                <span class="host-role muted">{h.role}</span>
+                <span class="host-more">Read more →</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
         <h2>How it started</h2>
         <p>
           We started Thinking With… in 2020, during the depths of the pandemic. We were all
@@ -89,20 +103,6 @@ import { u } from '../lib/url';
           So stay tuned. Things are going to be different. But also the same. Is there any other
           option?
         </p>
-
-        <h2>Who we are</h2>
-        <p>We're three academics who specialize in rhetorical theory.</p>
-        <ul class="hosts">
-          {hosts.map((h) => (
-            <li class="host">
-              <a class="host-link" href={u(`/about/${h.slug}`)}>
-                <span class="host-name">{h.name}</span>
-                <span class="host-role muted">{h.role}</span>
-                <span class="host-more">Read more →</span>
-              </a>
-            </li>
-          ))}
-        </ul>
       </div>
 
       <div class="cta card">

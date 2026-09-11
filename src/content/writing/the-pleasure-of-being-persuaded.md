@@ -1,7 +1,7 @@
 ---
 title: 'The Pleasure of Being Persuaded'
 description: On learning rhetoric to avoid being duped — and then learning, against the grain of critique, to enjoy it.
-date: 2026-01-30
+date: 2026-09-10
 author: Nathaniel Street
 tags: ['essays', 'rhetoric']
 ---

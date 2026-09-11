@@ -50,7 +50,50 @@ git add -A && git commit -m "Publish: <what changed>" && git push
 
 Production never moves unless someone runs these steps deliberately.
 
+## Nsite (live, shared)
+
+In addition to the GitHub Pages live repo, the site is published as an
+**Nsite**: a static site published as signed Nostr events (files on Blossom
+servers, a manifest pointing at them). Anyone can resolve it by its Nostr
+pubkey; a gateway (nsite.network) also serves it over HTTPS so a custom
+domain can point at it.
+
+Ownership model:
+
+- **One shared site key** owns the Nsite. Its nsec is backed up 2-of-3: each
+  podcaster holds one Shamir shard; any two shards restore the key. The key
+  itself is not stored anywhere in full.
+- **Authorship lives on personal keys.** Each podcaster signs their own posts
+  (NIP-01 notes / NIP-30023 articles) with their personal Nostr key; the site
+  displays those signatures alongside their names.
+- **Go-live approval is procedural:** the same "Luke says go, authors approved
+  in-thread" loop as above. Two of three agreeing in the thread is the
+  effective 2-of-3.
+
 ### One-time setup (pending)
+
+- [ ] Generate the site key (`npx nak key generate`), record the nsec once.
+- [ ] Shard the nsec 2-of-3 (Shamir) and give one shard to each podcaster.
+      Tool: a SLIP-39-capable keystore, or an offline Shamir page run locally
+      in a browser - decide when we do this, on an offline machine.
+- [ ] Publish the built site: `npx nsite-cli upload dist/` with the site key
+      (`NSITE_NSEC` env or `nsite-cli login`). Relays/blossom servers can be
+      the nsite-cli defaults to start.
+- [ ] Domain: add the CNAME/TXT records at the registrar pointing the domain
+      at the nsite gateway.
+- [ ] Before first Nsite publish: build with the live domain as `site` and
+      `base: '/'` in `astro.config.mjs` (currently staged for GitHub Pages).
+
+### Go-live to the Nsite (repeatable)
+
+```bash
+npm run build
+NSITE_NSEC=<site key nsec> npx nsite-cli upload dist/
+```
+
+nsite-cli only re-uploads changed files, so updates are cheap.
+
+### One-time setup (GitHub Pages live repo, pending)
 
 - [ ] Create the `thinking-with-live` repo (needs `gh` auth or Luke's click).
 - [ ] Production domain: confirm the name, then attach it to the live repo

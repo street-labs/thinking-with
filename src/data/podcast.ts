@@ -49,7 +49,7 @@ export const hosts: Host[] = [
     bio: [
       'I am a writer, teacher, and theorist whose work links fields such as rhetoric, philosophy, literary theory, pedagogy, and cultural criticism. While I am not opposed to disciplinary identities, I am more interested in thinking through the ways that practices of interpretation, inscription, and repetition work to form and transform things like disciplines and identities.',
       'I have published one book, *The Future of Invention,* and multiple articles in journals such as *College English*, *Philosophy & Rhetoric*, *Quarterly Journal of Speech*, and *Rhetoric Society Quarterly*. I am currently working on 1) a book on “style” that focuses on Nietzschean sense of dispositions 2) a graduate “intro” book on Derrida and Writing 3) this podcast and website.',
-      'Across these different projects, I continue to be drawn to investigating the practices of thinking, writing, and training such that “theories” or “traditions” are not so much fixed bodies of knowledge or positions, but a regularized patterns of action and response.',
+      'Across these different projects, I continue to be drawn to investigating the practices of thinking, writing, and training such that “theories” or “traditions” are not so much fixed bodies of knowledge or positions, but are regularized patterns of action and response.',
     ],
   },
   {

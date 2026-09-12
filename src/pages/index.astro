@@ -52,10 +52,10 @@ const latest = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(3, 15);
       <div class="latest-grid">
         {latest.map((item) => (
           <a
-            class:list={['latest-item card', { 'has-cover': !!item.cover, crow: !!item.cover?.includes('crow'), bare: !!item.cover && !item.cover.includes('crow') }]}
+            class:list={['latest-item card', { 'has-cover': !!item.cover, crow: !!item.cover?.includes('crow'), dunes: !!item.cover?.includes('dunes'), bare: !!item.cover && !item.cover?.includes('crow') && !item.cover?.includes('dunes') }]}
             style={item.cover ? `--cover:url(${item.cover})` : undefined}
             href={item.href}
-            aria-label={item.cover && !item.cover.includes('crow') ? item.title : undefined}
+            aria-label={item.cover && !item.cover.includes('crow') && !item.cover.includes('dunes') ? item.title : undefined}
           >
             <span class="latest-kind">{item.kind}</span>
             <h3 class="latest-title">{item.title}</h3>
@@ -111,6 +111,14 @@ const latest = [...essays, ...eps].sort((a, b) => b.ts - a.ts).slice(3, 15);
     background-color: #000;
   }
   .latest-item.crow { align-items: flex-end; text-align: right; }
+  /* Dune card: art fills the card, dark text zone at the lower left. */
+  .latest-item.dunes {
+    background-color: #16120e;
+    background-size: cover;
+    background-position: center;
+  }
+  .latest-item.dunes { align-items: flex-end; text-align: right; }
+  .latest-item.dunes .latest-title { width: fit-content; color: #fff; background: rgba(0, 0, 0, 0.4); padding: 0.1em 0.45em; border-radius: 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
   .latest-item.crow .latest-title { width: fit-content; color: #fff; background: rgba(0, 0, 0, 0.4); padding: 0.1em 0.45em; border-radius: 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
   .latest-item.has-cover .latest-date { color: rgba(243, 239, 232, 0.85); }
   .latest-item.has-cover .latest-kind { color: #f0c9a8; }

@@ -147,6 +147,7 @@ export const seasons: Season[] = [
     work: 'Selected essays',
     title: 'Thinking With… selections from Jacques Derrida',
     cover: '/covers/season-4.png',
+    cardCover: '/covers/cards/season-4-dunes.png',
     accent: '#D2782E',
     accentInk: '#231a12',
     status: 'published',
